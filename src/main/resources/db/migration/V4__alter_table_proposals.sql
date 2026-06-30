@@ -1,0 +1,1 @@
+ALTER TABLE proposals RENAME COLUMN star_date to start_date;
