@@ -11,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.BernardoZocatele.vote_api.dto.auth.LoginRequestDto;
-import com.BernardoZocatele.vote_api.dto.auth.LoginResponseDto;
-import com.BernardoZocatele.vote_api.dto.auth.RegisterRequestDto;
-import com.BernardoZocatele.vote_api.dto.auth.RegisterResponseDto;
+import com.BernardoZocatele.vote_api.dto.request.LoginRequestDto;
+import com.BernardoZocatele.vote_api.dto.request.RegisterRequestDto;
+import com.BernardoZocatele.vote_api.dto.response.LoginResponseDto;
+import com.BernardoZocatele.vote_api.dto.response.RegisterResponseDto;
 import com.BernardoZocatele.vote_api.entity.User;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
 
