@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.BernardoZocatele.vote_api.dto.request.CreateProposalRequestDto;
 import com.BernardoZocatele.vote_api.entity.Proposal;
 import com.BernardoZocatele.vote_api.entity.User;
-import com.BernardoZocatele.vote_api.provider.ProposalRulesProvider;
+import com.BernardoZocatele.vote_api.provider.proposal.ProposalRulesProvider;
 import com.BernardoZocatele.vote_api.repository.ProposalRepository;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
 

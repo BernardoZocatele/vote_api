@@ -1,4 +1,4 @@
-package com.BernardoZocatele.vote_api.provider;
+package com.BernardoZocatele.vote_api.provider.proposal;
 
 import java.time.LocalDateTime;
 import java.util.List;
