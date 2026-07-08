@@ -93,4 +93,17 @@ public class ProposalService {
 
         return errors;
     }
+
+    public List<String> deleteProposal(Long id) throws Exception {
+        Proposal proposal = proposalRepository.findById(id)
+            .orElseThrow(() -> new NotFoundException());
+
+        if(voteRepository.existsByProposalId(id)) {
+            throw new IllegalStateException("Can't delete this proposal because someone already voted.");
+        }
+
+        proposalRepository.delete(proposal);
+
+        return List.of();
+    } 
 }
