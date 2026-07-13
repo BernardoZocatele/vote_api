@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.BernardoZocatele.vote_api.dto.request.CreateProposalRequestDto;
 import com.BernardoZocatele.vote_api.dto.request.EditProposalRequestDto;
 import com.BernardoZocatele.vote_api.entity.Proposal;
+import com.BernardoZocatele.vote_api.infra.exception.GlobalRulesErrorMessage;
 import com.BernardoZocatele.vote_api.service.ProposalService;
 
 @RestController
@@ -34,10 +35,11 @@ public class ProposalController {
 
         if(errors.isEmpty()) {
             Proposal prop = proposalService.createProposal(request);
-            return ResponseEntity.status(HttpStatus.CREATED).body(prop.getTitle() + " created!");
+            return ResponseEntity.status(HttpStatus.CREATED).body("'" + prop.getTitle() + "'" + " created.");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        GlobalRulesErrorMessage threatResponse = new GlobalRulesErrorMessage(HttpStatus.BAD_REQUEST, errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
     }
 
     @PutMapping("/edit/{id}")
@@ -45,20 +47,16 @@ public class ProposalController {
         List<String> errors = proposalService.editProposal(id, request);
 
         if(errors.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body("Proposal edited!");
+            return ResponseEntity.status(HttpStatus.OK).body("Proposal edited.");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        GlobalRulesErrorMessage threatResponse = new GlobalRulesErrorMessage(HttpStatus.BAD_REQUEST, errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteProposal(@PathVariable Long id) throws Exception {
-        List<String> errors = proposalService.deleteProposal(id);
-
-        if(errors.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body("Proposal deleted!");
-        }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        proposalService.deleteProposal(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Proposal deleted!");
     }
 }

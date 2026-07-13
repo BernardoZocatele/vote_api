@@ -9,6 +9,8 @@ import com.BernardoZocatele.vote_api.dto.request.VoteRequestDto;
 import com.BernardoZocatele.vote_api.entity.Proposal;
 import com.BernardoZocatele.vote_api.entity.User;
 import com.BernardoZocatele.vote_api.entity.Votes;
+import com.BernardoZocatele.vote_api.infra.exception.ProposalNotFoundException;
+import com.BernardoZocatele.vote_api.infra.exception.UserNotFoundException;
 import com.BernardoZocatele.vote_api.provider.vote.VoteRulesProvider;
 import com.BernardoZocatele.vote_api.repository.ProposalRepository;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
@@ -32,9 +34,13 @@ public class VoteService {
     
     
     public List<String> checkVote(VoteRequestDto request) {
-        if(userRepository.existsById(request.user_id()) == false) return List.of("User not found.");
+        if(userRepository.existsById(request.user_id()) == false) {
+            throw new UserNotFoundException();
+        }
 
-        if(proposalRepository.existsById(request.proposal_id()) == false) return List.of("Proposal not found.");
+        if(proposalRepository.existsById(request.proposal_id()) == false) {
+            throw new ProposalNotFoundException();
+        } 
         
         return voteRulesProvider.getVoteRules().stream()
                                 .filter(dto -> dto.isValid(request))

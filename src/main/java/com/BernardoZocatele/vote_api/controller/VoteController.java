@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BernardoZocatele.vote_api.dto.request.VoteRequestDto;
+import com.BernardoZocatele.vote_api.infra.exception.GlobalRulesErrorMessage;
 import com.BernardoZocatele.vote_api.service.VoteService;
 
 @RestController
@@ -31,6 +32,7 @@ public class VoteController {
             return ResponseEntity.status(HttpStatus.CREATED).body("Voted!");
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        GlobalRulesErrorMessage threatResponse = new GlobalRulesErrorMessage(HttpStatus.BAD_REQUEST, errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
     }
 }

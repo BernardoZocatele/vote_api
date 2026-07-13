@@ -4,7 +4,6 @@ import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +11,8 @@ import com.BernardoZocatele.vote_api.dto.request.CreateProposalRequestDto;
 import com.BernardoZocatele.vote_api.dto.request.EditProposalRequestDto;
 import com.BernardoZocatele.vote_api.entity.Proposal;
 import com.BernardoZocatele.vote_api.entity.User;
+import com.BernardoZocatele.vote_api.infra.exception.ProposalNotFoundException;
+import com.BernardoZocatele.vote_api.infra.exception.UserNotFoundException;
 import com.BernardoZocatele.vote_api.provider.proposal.ProposalRulesProvider;
 import com.BernardoZocatele.vote_api.repository.ProposalRepository;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
@@ -35,7 +36,9 @@ public class ProposalService {
 
     public List<String> checkProposal(CreateProposalRequestDto dto) {
 
-        if(userRepository.existsById(dto.user_id()) == false) return List.of("User not found");
+        if(userRepository.existsById(dto.user_id()) == false) {
+            throw new UserNotFoundException();
+        }
 
         return proposalRulesProvider.getProposalRules().stream()
                                     .filter(rule -> rule.isValid(dto))
@@ -62,7 +65,7 @@ public class ProposalService {
     @Transactional
     public List<String> editProposal(Long id, EditProposalRequestDto dto) throws Exception {
         Proposal proposal = proposalRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException());
+            .orElseThrow(() -> new ProposalNotFoundException());
 
         User user = userRepository.findUserById(dto.user_id());
 
@@ -94,16 +97,14 @@ public class ProposalService {
         return errors;
     }
 
-    public List<String> deleteProposal(Long id) throws Exception {
+    public void deleteProposal(Long id) throws Exception {
         Proposal proposal = proposalRepository.findById(id)
-            .orElseThrow(() -> new NotFoundException());
+            .orElseThrow(() -> new ProposalNotFoundException());
 
         if(voteRepository.existsByProposalId(id)) {
             throw new IllegalStateException("Can't delete this proposal because someone already voted.");
         }
 
         proposalRepository.delete(proposal);
-
-        return List.of();
     } 
 }
