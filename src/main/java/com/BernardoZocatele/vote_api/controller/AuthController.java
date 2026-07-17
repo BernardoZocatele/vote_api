@@ -16,6 +16,7 @@ import com.BernardoZocatele.vote_api.dto.request.RegisterRequestDto;
 import com.BernardoZocatele.vote_api.dto.response.LoginResponseDto;
 import com.BernardoZocatele.vote_api.dto.response.RegisterResponseDto;
 import com.BernardoZocatele.vote_api.entity.User;
+import com.BernardoZocatele.vote_api.infra.security.TokenService;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
 
 @RestController
@@ -25,11 +26,13 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
+    private final TokenService tokenService;
 
-    public AuthController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+    public AuthController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository, TokenService tokenService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
+        this.tokenService = tokenService;
     }
 
     @PostMapping("/login")
@@ -37,7 +40,9 @@ public class AuthController {
         UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.cpf(), request.password());
         Authentication auth = authenticationManager.authenticate(userAndPass);
 
-        return ResponseEntity.ok(new LoginResponseDto(request.cpf())); // No futuro a resposta de login será um token.
+        var token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDto(token));
     }
 
     @PostMapping("/register")

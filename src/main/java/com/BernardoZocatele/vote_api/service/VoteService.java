@@ -19,10 +19,10 @@ import com.BernardoZocatele.vote_api.repository.VoteRepository;
 @Service
 public class VoteService {
 
-    public final VoteRulesProvider voteRulesProvider;
-    public final UserRepository userRepository;
-    public final ProposalRepository proposalRepository;
-    public final VoteRepository voteRepository;
+    private final VoteRulesProvider voteRulesProvider;
+    private final UserRepository userRepository;
+    private final ProposalRepository proposalRepository;
+    private final VoteRepository voteRepository;
 
     public VoteService(VoteRulesProvider voteRulesProvider, UserRepository userRepository, ProposalRepository proposalRepository, VoteRepository voteRepository) {
         this.voteRulesProvider = voteRulesProvider;
@@ -30,8 +30,6 @@ public class VoteService {
         this.proposalRepository = proposalRepository;
         this.voteRepository = voteRepository;
     }
-
-    
     
     public List<String> checkVote(VoteRequestDto request) {
         if(userRepository.existsById(request.user_id()) == false) {
