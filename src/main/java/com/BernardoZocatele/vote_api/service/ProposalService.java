@@ -1,11 +1,12 @@
 package com.BernardoZocatele.vote_api.service;
 
-import java.nio.file.AccessDeniedException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.springframework.security.access.AccessDeniedException;
 
 import com.BernardoZocatele.vote_api.dto.request.CreateProposalRequestDto;
 import com.BernardoZocatele.vote_api.dto.request.EditProposalRequestDto;
@@ -144,8 +145,8 @@ public class ProposalService {
         else if(percentNao > percentSim) winner = "NAO";
 
         if(proposal.getExpiration_date().isBefore(LocalDateTime.now())) status = "Finished";
-        if(proposal.getExpiration_date().isAfter(LocalDateTime.now())) status = "Open";
-
+        if(proposal.getStart_date().isBefore(LocalDateTime.now()) && proposal.getExpiration_date().isAfter(LocalDateTime.now())) status = "Open";
+    
         return new VotesResponseDto(proposal.getTitle(), percentSim, percentNao, winner, totalVotes, status);
     }
 }

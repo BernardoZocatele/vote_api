@@ -13,6 +13,9 @@ public interface ProposalRepository extends JpaRepository<Proposal, Long> {
     @Query("SELECT p. expiration_date FROM Proposal p WHERE p.id = :id")
     LocalDateTime findExpirationDateById(@Param("id") Long id);
 
+    @Query("SELECT p. start_date FROM Proposal p WHERE p.id = :id")
+    LocalDateTime findStartDateById(@Param("id") Long id);
+
     Proposal findProposalById(Long id);
     
 }

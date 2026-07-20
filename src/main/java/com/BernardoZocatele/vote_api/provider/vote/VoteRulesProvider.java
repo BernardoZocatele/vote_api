@@ -37,6 +37,10 @@ public class VoteRulesProvider {
         new VoteRules(
             dto -> proposalRepository.findExpirationDateById(dto.proposal_id()).isBefore(LocalDateTime.now()), 
             "Proposal is already closed."
+        ),
+        new VoteRules(
+            dto -> proposalRepository.findStartDateById(dto.proposal_id()).isAfter(LocalDateTime.now()), 
+            "Proposal is not open yet."
         )
     );
 
