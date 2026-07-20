@@ -82,6 +82,6 @@ public class ProposalController {
 
         VotesResponseDto dto = proposalService.getProposalResults(id, userId);
 
-        return ResponseEntity.status(HttpStatus.FOUND).body(dto);
+        return ResponseEntity.status(HttpStatus.OK).body(dto);
     }
 }

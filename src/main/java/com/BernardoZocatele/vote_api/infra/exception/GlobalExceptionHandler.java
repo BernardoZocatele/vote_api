@@ -73,10 +73,4 @@ public class GlobalExceptionHandler{
         GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.BAD_REQUEST, "Invalid request.");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(treatResponse);
     }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<GlobalErrorMessage> handleGenericException(Exception exception) {
-        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error server.");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatResponse);
-    }
 }

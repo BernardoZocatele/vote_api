@@ -20,6 +20,8 @@ import com.BernardoZocatele.vote_api.infra.exception.RegisterUserException;
 import com.BernardoZocatele.vote_api.infra.security.TokenService;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("auth")
 public class AuthController {
@@ -37,7 +39,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto request) {
+    public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto request) {
         UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(request.cpf(), request.password());
         Authentication auth = authenticationManager.authenticate(userAndPass);
 
@@ -47,7 +49,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto request) {
+    public ResponseEntity<RegisterResponseDto> register(@RequestBody @Valid RegisterRequestDto request) {
         User newUser = new User();
 
         if(userRepository.existsByCpf(request.cpf())) {

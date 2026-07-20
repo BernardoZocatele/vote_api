@@ -1,5 +1,11 @@
 package com.BernardoZocatele.vote_api.dto.request;
 
-public record LoginRequestDto(String cpf, String password) {
-    
-}
+import jakarta.validation.constraints.NotNull;
+
+public record LoginRequestDto(
+    @NotNull(message = "Cpf is mandatory")
+    String cpf, 
+
+    @NotNull(message = "Password is mandatory")
+    String password
+) {}
