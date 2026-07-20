@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import com.BernardoZocatele.vote_api.dto.request.CreateProposalRequestDto;
 import com.BernardoZocatele.vote_api.dto.request.EditProposalRequestDto;
 import com.BernardoZocatele.vote_api.dto.response.VotesResponseDto;
 import com.BernardoZocatele.vote_api.entity.Proposal;
+import com.BernardoZocatele.vote_api.entity.User;
 import com.BernardoZocatele.vote_api.infra.exception.GlobalRulesErrorMessage;
 import com.BernardoZocatele.vote_api.service.ProposalService;
 
@@ -32,11 +35,13 @@ public class ProposalController {
     
     @PostMapping("/create")
     public ResponseEntity<?> createProposal(@RequestBody CreateProposalRequestDto request) {
+        User userLogado = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userLogado.getId();
 
-        List<String> errors = proposalService.checkProposal(request);
+        List<String> errors = proposalService.checkProposal(request, userId);
 
         if(errors.isEmpty()) {
-            Proposal prop = proposalService.createProposal(request);
+            Proposal prop = proposalService.createProposal(request, userId);
             return ResponseEntity.status(HttpStatus.CREATED).body("'" + prop.getTitle() + "'" + " created.");
         }
 
@@ -46,7 +51,10 @@ public class ProposalController {
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> editProposal(@PathVariable Long id, @RequestBody EditProposalRequestDto request) throws Exception {
-        List<String> errors = proposalService.editProposal(id, request);
+        User userLogado = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userLogado.getId();
+
+        List<String> errors = proposalService.editProposal(id, request, userId);
 
         if(errors.isEmpty()) {
             return ResponseEntity.status(HttpStatus.OK).body("Proposal edited.");
@@ -57,13 +65,19 @@ public class ProposalController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteProposal(@PathVariable Long id, @RequestBody Long userId) throws Exception {
+    public ResponseEntity<?> deleteProposal(@PathVariable Long id) throws Exception {
+        User userLogado =  (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userLogado.getId();
+
         proposalService.deleteProposal(id, userId);
         return ResponseEntity.status(HttpStatus.OK).body("Proposal deleted!");
     }
 
     @GetMapping("/result/{id}")
-    public ResponseEntity<?> resultProposal(@PathVariable long id, @RequestBody Long userId) throws Exception {
+    public ResponseEntity<?> resultProposal(@PathVariable long id) throws Exception {
+        User userLogado = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userLogado.getId();
+
         VotesResponseDto dto = proposalService.getProposalResults(id, userId);
 
         return ResponseEntity.status(HttpStatus.FOUND).body(dto);

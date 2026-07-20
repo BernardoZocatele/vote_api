@@ -26,7 +26,6 @@ public class TokenService {
             var token = JWT.create()
                 .withIssuer("vote-api")
                 .withSubject(user.getCpf())
-                .withClaim("userId", user.getId())
                 .withExpiresAt(generateExpirationDate());
 
             return token.sign(algorithm);

@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.BernardoZocatele.vote_api.dto.request.VoteRequestDto;
+import com.BernardoZocatele.vote_api.entity.User;
 import com.BernardoZocatele.vote_api.infra.exception.GlobalRulesErrorMessage;
 import com.BernardoZocatele.vote_api.service.VoteService;
 
@@ -25,10 +27,13 @@ public class VoteController {
     
     @PostMapping
     public ResponseEntity<?> vote(@RequestBody VoteRequestDto request) {
-        List<String> errors = voteService.checkVote(request);
+        User userLogado = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = userLogado.getId();
+
+        List<String> errors = voteService.checkVote(request, userId);
 
         if(errors.isEmpty()) {
-            voteService.createVote(request);
+            voteService.createVote(request, userId);
             return ResponseEntity.status(HttpStatus.CREATED).body("Voted!");
         }
 

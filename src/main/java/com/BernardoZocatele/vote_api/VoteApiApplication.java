@@ -13,7 +13,4 @@ public class VoteApiApplication {
 }
 
 // FALTA FAZER 
-// adicionar logica de token (guardar o user id no token)
-// configurar filtro no SecurityConfiguration
-// configurar segurança das rotas no SecurityConfiguration
 // remover user id dos request body e passar a utilizar o user id do token

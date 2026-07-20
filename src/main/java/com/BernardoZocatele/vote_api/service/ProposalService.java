@@ -36,9 +36,9 @@ public class ProposalService {
         this.voteRepository = voteRepository;
     }
 
-    public List<String> checkProposal(CreateProposalRequestDto dto) {
+    public List<String> checkProposal(CreateProposalRequestDto dto, Long userId) {
 
-        if(userRepository.existsById(dto.user_id()) == false) {
+        if(userRepository.existsById(userId) == false) {
             throw new UserNotFoundException();
         }
 
@@ -48,9 +48,9 @@ public class ProposalService {
                                     .toList();
     }
 
-    public Proposal createProposal(CreateProposalRequestDto dto) {
+    public Proposal createProposal(CreateProposalRequestDto dto, Long userId) {
         Proposal newProposal = new Proposal();
-        User user = userRepository.findUserById(dto.user_id());
+        User user = userRepository.findUserById(userId);
 
         newProposal.setTitle(dto.title());
         newProposal.setDescription(dto.description());
@@ -65,11 +65,11 @@ public class ProposalService {
     }
 
     @Transactional
-    public List<String> editProposal(Long id, EditProposalRequestDto dto) throws Exception {
+    public List<String> editProposal(Long id, EditProposalRequestDto dto, Long userId) throws Exception {
         Proposal proposal = proposalRepository.findById(id)
             .orElseThrow(() -> new ProposalNotFoundException());
 
-        User user = userRepository.findUserById(dto.user_id());
+        User user = userRepository.findUserById(userId);
 
         if(!proposal.getUser().equals(user)) {
             throw new AccessDeniedException("User can't edit this proposal.");
@@ -83,11 +83,10 @@ public class ProposalService {
             dto.title(),
             dto.description(),
             dto.start_date(),
-            dto.expiration_date(),
-            dto.user_id()
+            dto.expiration_date()
         );
 
-        List<String> errors = checkProposal(newProposal);
+        List<String> errors = checkProposal(newProposal, userId);
 
         if(errors.isEmpty()) {
             proposal.setTitle(dto.title());
@@ -123,7 +122,7 @@ public class ProposalService {
         User user = userRepository.findUserById(userId);
 
         if(!proposal.getUser().equals(user)) {
-            throw new AccessDeniedException("User can't edit this proposal.");
+            throw new AccessDeniedException("User can't consult this proposal.");
         }
 
         String winner = "EMPATE";

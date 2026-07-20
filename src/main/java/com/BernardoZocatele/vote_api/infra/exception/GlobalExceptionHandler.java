@@ -52,7 +52,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(RuntimeException.class)
     private ResponseEntity<GlobalErrorMessage> runtimeException(RuntimeException exception) {
         GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(threatResponse);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatResponse);
     }
+
+    @ExceptionHandler(NullPointerException.class)
+    private ResponseEntity<GlobalErrorMessage> nullPointerException(NullPointerException exception) {
+        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.UNAUTHORIZED, "Authentication error");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(threatResponse);
+    }
+
+    
     
 }

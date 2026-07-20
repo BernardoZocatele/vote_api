@@ -31,8 +31,8 @@ public class VoteService {
         this.voteRepository = voteRepository;
     }
     
-    public List<String> checkVote(VoteRequestDto request) {
-        if(userRepository.existsById(request.user_id()) == false) {
+    public List<String> checkVote(VoteRequestDto request, Long userId) {
+        if(userRepository.existsById(userId) == false) {
             throw new UserNotFoundException();
         }
 
@@ -46,9 +46,9 @@ public class VoteService {
                                 .toList();
     }
 
-    public Votes createVote(VoteRequestDto request) {
+    public Votes createVote(VoteRequestDto request, Long userId) {
         Votes newVote = new Votes();
-        User user = userRepository.findUserById(request.user_id());
+        User user = userRepository.findUserById(userId);
         Proposal proposal = proposalRepository.findProposalById(request.proposal_id());
 
         newVote.setUser(user);
