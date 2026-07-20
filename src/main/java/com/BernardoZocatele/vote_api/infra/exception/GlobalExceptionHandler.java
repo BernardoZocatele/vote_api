@@ -16,67 +16,67 @@ public class GlobalExceptionHandler{
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<GlobalErrorMessage> userNotFoundException(UserNotFoundException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(treatResponse);
     }
 
     @ExceptionHandler(ProposalNotFoundException.class)
     public ResponseEntity<GlobalErrorMessage> proposalNotFoundException(ProposalNotFoundException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(treatResponse);
     }
 
     @ExceptionHandler(IllegalStateException.class)
     public ResponseEntity<GlobalErrorMessage> illegalStateException(IllegalStateException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(treatResponse);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<GlobalErrorMessage> accessDeniedException(AccessDeniedException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.FORBIDDEN, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.FORBIDDEN, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(treatResponse);
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<GlobalErrorMessage> badCredentialsException(BadCredentialsException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.UNAUTHORIZED, "Invalid username or password");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(treatResponse);
     }
 
     @ExceptionHandler(InternalAuthenticationServiceException.class)
     public ResponseEntity<GlobalErrorMessage> internalAuthenticationServiceException(InternalAuthenticationServiceException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.UNAUTHORIZED, "Invalid username or password");
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(treatResponse);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<GlobalErrorMessage> runtimeException(RuntimeException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatResponse);
     }
 
     @ExceptionHandler(RegisterUserException.class)
     public ResponseEntity<GlobalErrorMessage> registerUserException(RegisterUserException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.CONFLICT, exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(treatResponse);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<GlobalErrorMessage> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.UNPROCESSABLE_CONTENT, " Empty mandatory field.");
-        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.UNPROCESSABLE_CONTENT, " Empty mandatory field.");
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_CONTENT).body(treatResponse);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<GlobalErrorMessage> httpMessageNotReadableException(HttpMessageNotReadableException exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.BAD_REQUEST, "Invalid request.");
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.BAD_REQUEST, "Invalid request.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(treatResponse);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<GlobalErrorMessage> handleGenericException(Exception exception) {
-        GlobalErrorMessage threatResponse = new GlobalErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error server.");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatResponse);
+        GlobalErrorMessage treatResponse = new GlobalErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Internal error server.");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(treatResponse);
     }
 }
