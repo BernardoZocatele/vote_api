@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     UserDetails findByCpf(String cpf);
 
     User findUserById(Long id);
+
+    Boolean existsByCpf(String cpf);
 }

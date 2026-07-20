@@ -16,6 +16,7 @@ import com.BernardoZocatele.vote_api.dto.request.RegisterRequestDto;
 import com.BernardoZocatele.vote_api.dto.response.LoginResponseDto;
 import com.BernardoZocatele.vote_api.dto.response.RegisterResponseDto;
 import com.BernardoZocatele.vote_api.entity.User;
+import com.BernardoZocatele.vote_api.infra.exception.RegisterUserException;
 import com.BernardoZocatele.vote_api.infra.security.TokenService;
 import com.BernardoZocatele.vote_api.repository.UserRepository;
 
@@ -48,6 +49,10 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<RegisterResponseDto> register(@RequestBody RegisterRequestDto request) {
         User newUser = new User();
+
+        if(userRepository.existsByCpf(request.cpf())) {
+            throw new RegisterUserException();
+        }
 
         newUser.setName(request.name());
         newUser.setCpf(request.cpf());

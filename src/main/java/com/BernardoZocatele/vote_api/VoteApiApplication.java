@@ -13,4 +13,4 @@ public class VoteApiApplication {
 }
 
 // FALTA FAZER 
-// remover user id dos request body e passar a utilizar o user id do token
+// Arrumar as exceções que são lamçadas na camada de filtro, que ignoram o global exception handler

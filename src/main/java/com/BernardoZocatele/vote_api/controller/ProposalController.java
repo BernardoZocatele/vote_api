@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.BernardoZocatele.vote_api.dto.request.CreateProposalRequestDto;
 import com.BernardoZocatele.vote_api.dto.request.EditProposalRequestDto;
+import com.BernardoZocatele.vote_api.dto.response.SuccessResponseDto;
 import com.BernardoZocatele.vote_api.dto.response.VotesResponseDto;
-import com.BernardoZocatele.vote_api.entity.Proposal;
 import com.BernardoZocatele.vote_api.entity.User;
 import com.BernardoZocatele.vote_api.infra.exception.GlobalRulesErrorMessage;
 import com.BernardoZocatele.vote_api.service.ProposalService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/proposal")
@@ -34,15 +36,15 @@ public class ProposalController {
     }
     
     @PostMapping("/create")
-    public ResponseEntity<?> createProposal(@RequestBody CreateProposalRequestDto request) {
+    public ResponseEntity<?> createProposal(@RequestBody @Valid CreateProposalRequestDto request) {
         User userLogado = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = userLogado.getId();
 
         List<String> errors = proposalService.checkProposal(request, userId);
 
         if(errors.isEmpty()) {
-            Proposal prop = proposalService.createProposal(request, userId);
-            return ResponseEntity.status(HttpStatus.CREATED).body("'" + prop.getTitle() + "'" + " created.");
+            proposalService.createProposal(request, userId);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessResponseDto(HttpStatus.CREATED, "Proposal created."));
         }
 
         GlobalRulesErrorMessage threatResponse = new GlobalRulesErrorMessage(HttpStatus.BAD_REQUEST, errors);
@@ -57,7 +59,7 @@ public class ProposalController {
         List<String> errors = proposalService.editProposal(id, request, userId);
 
         if(errors.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.OK).body("Proposal edited.");
+            return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponseDto(HttpStatus.OK, "Proposal edited."));
         }
 
         GlobalRulesErrorMessage threatResponse = new GlobalRulesErrorMessage(HttpStatus.BAD_REQUEST, errors);
@@ -70,7 +72,7 @@ public class ProposalController {
         Long userId = userLogado.getId();
 
         proposalService.deleteProposal(id, userId);
-        return ResponseEntity.status(HttpStatus.OK).body("Proposal deleted!");
+        return ResponseEntity.status(HttpStatus.OK).body(new SuccessResponseDto(HttpStatus.OK, "Proposal deleted."));
     }
 
     @GetMapping("/result/{id}")

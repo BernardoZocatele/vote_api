@@ -146,6 +146,6 @@ public class ProposalService {
         if(proposal.getExpiration_date().isBefore(LocalDateTime.now())) status = "Finished";
         if(proposal.getExpiration_date().isAfter(LocalDateTime.now())) status = "Open";
 
-        return new VotesResponseDto(percentSim, percentNao, winner, totalVotes, status);
+        return new VotesResponseDto(proposal.getTitle(), percentSim, percentNao, winner, totalVotes, status);
     }
 }

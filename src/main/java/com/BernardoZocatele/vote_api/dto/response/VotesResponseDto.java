@@ -1,5 +1,5 @@
 package com.BernardoZocatele.vote_api.dto.response;
 
 
-public record VotesResponseDto(Float percentSim, Float percentNao, String winner, Integer totalVotes, String status) {
+public record VotesResponseDto(String name, Float percentSim, Float percentNao, String winner, Integer totalVotes, String status) {
 }
