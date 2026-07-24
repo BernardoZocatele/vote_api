@@ -193,6 +193,6 @@ cd vote_api`
 
     `mvn spring-boot:run`
 
-3. Access OpenAPI / Swagger Documentation:
+3. Access API via Postman at: 
 
-    * Open your browser at: http://localhost:8080/swagger-ui/index.html
+    * http://localhost:8080
