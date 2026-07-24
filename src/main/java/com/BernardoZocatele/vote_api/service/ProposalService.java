@@ -126,23 +126,23 @@ public class ProposalService {
             throw new AccessDeniedException("User can't consult this proposal.");
         }
 
-        String winner = "EMPATE";
+        String winner = "TIE";
         String status = "Not started";
         Float percentSim = (float) 0.0;
         Float percentNao = (float) 0.0;
 
         Integer totalVotes = (voteRepository.findAllByProposalId(id)).size();
-        Integer totalSim = (voteRepository.findAllByProposalIdAndVote(id, VoteEnum.SIM)).size();
-        Integer totalNao = (voteRepository.findAllByProposalIdAndVote(id, VoteEnum.NAO)).size();
+        Integer totalSim = (voteRepository.findAllByProposalIdAndVote(id, VoteEnum.YES)).size();
+        Integer totalNao = (voteRepository.findAllByProposalIdAndVote(id, VoteEnum.NO)).size();
 
         if(totalVotes > 0) {
             percentSim = ( (float) totalSim / totalVotes) * 100;
             percentNao = ( (float) totalNao / totalVotes) * 100;
         }
 
-        if(percentSim == percentNao) winner = "EMPATE";
-        else if(percentSim > percentNao) winner = "SIM";
-        else if(percentNao > percentSim) winner = "NAO";
+        if(percentSim == percentNao) winner = "TIE";
+        else if(percentSim > percentNao) winner = "YES";
+        else if(percentNao > percentSim) winner = "NO";
 
         if(proposal.getExpiration_date().isBefore(LocalDateTime.now())) status = "Finished";
         if(proposal.getStart_date().isBefore(LocalDateTime.now()) && proposal.getExpiration_date().isAfter(LocalDateTime.now())) status = "Open";

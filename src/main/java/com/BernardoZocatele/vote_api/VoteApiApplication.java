@@ -11,6 +11,3 @@ public class VoteApiApplication {
 	}
 
 }
-
-// FALTA FAZER 
-// Arrumar as exceções que são lamçadas na camada de filtro, que ignoram o global exception handler
