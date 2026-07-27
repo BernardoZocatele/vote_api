@@ -23,7 +23,7 @@ Secure login generating access tokens for protected routes.
 
 ### Proposal Management
 
-#### Create Proposal
+#### Create and Edit Proposal
 ```JSON
 {
   "title": "string",
@@ -161,6 +161,13 @@ Before running the application, make sure you have installed:
     `CREATE DATABASE "voteApi";`
 
 * (Note: Database migrations and schema creation are handled automatically upon startup via Flyway)
+
+* Database credentials are configured in the `src/main/resources/application.properties` file.
+``` properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/voteApi
+spring.datasource.username=postgres
+spring.datasource.password=password
+```
 
 ### Security Environment Variable
 
